@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- 幅をデバイスの画面サイズにし、ユーザーによるサイズ変更をできないようにする -->
+  <meta name="viewport" content="widtd=device-widtd, user-scalable=no">
+  <!-- ページを全画面で表示する(iPad/iPhpne用) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- ステータスバーを半透明で表示する(iPad/iPhpne用) -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-tdanslucent">
+  <title>enchant</title>
+  <!--    <script type="text/javascript" src="enchant.js"></script>-->
+  <script type="text/javascript" src="js/jQ/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="js/jQ/jquery-3.3.1.slim.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- 「body」要素のマージンを「0」に設定する -->
+  <style type="text/css">
+    body {
+      margin: 0;
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="icon">
+      <h1>雑なＨＰ</h1>
+    </div>
+    <div class="menu">
+      <ul>
+        <li　class="now">ホーム</li>
+        <li>booknavi</li>
+        <li>日記</li>
+        <li>進捗</li>
+        <li>黒歴史</li>
+      </ul>
+    </div>
+  </header>
+  <p>
+    <table>
+      <tr>
+
+        <td>ステータス</td>
+        <td>STR</td>
+        <td>CON</td>
+        <td>SIZ</td>
+        <td>DEX</td>
+        <td>APP</td>
+        <td>INT</td>
+        <td>POW</td>
+        <td>EDU</td>
+      </tr>
+      <button class="dise" onclick="diserool1d6()">ダイスロール</button>
+      <tr>
+        <td>値</td>
+        <td class="STR_basic"><select class="3d6" name="STR" size="1"></select></td>
+        <td class="CON_basic"><select class="3d6" name="CON" size="1"></select></td>
+        <td class="DEX_basic"><select class="3d6" name="DEX" size="1"></select></td>
+        <td class="APP_basic"><select class="3d6" name="APP" size="1"></select></td>
+        <td class="POW_basic"><select class="3d6" name="POW" size="1"></select></td>
+        <td class="INT_basic"><select class="2d6_6" name="INT" size="1"></select></td>
+        <td class="SIZ_basic"><select class="2d6_6" name="SIZ" size="1"></select></td>
+        <td class="EDU_basic"><select class="3d6_3" name="EDU" size="1"></select></td>
+      </tr>
+      <tr class="UpDown">
+        <td>増加</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr class="moment_UpDown" 　>
+        <td>一時減少</td>
+        <td><input type="number" value="0" size="1"></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr class="total" 　>
+        <td>合計</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+
+    </table>
+</body>
+
+</html>

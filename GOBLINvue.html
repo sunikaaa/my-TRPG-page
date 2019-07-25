@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <!-- 幅をデバイスの画面サイズにし、ユーザーによるサイズ変更をできないようにする -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0 shrink-to-fit=no">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <title>ゴブリンスレイヤーキャラクターシート</title>
+
+  <!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+  <link href="css/style2.css" media="all" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <div>
+
+    <header>
+      <div id="header">
+        <header-outer :lists="lists"></header-outer>
+        <!--        <h1>雑なＨＰ~ＣＳＳ設計はいつかやる~</h1>-->
+      </div>
+      <!--
+      <p> "win32": {
+      "firefox": "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe -new-tab",
+      "iexplore": "C:\\Program Files\\Internet Explorer\\iexplore.exe",
+      "chrome": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+      "chrome64": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+      "yandex": "%Local AppData%\\Yandex\\YandexBrowser\\browser.exe"
+    }
+        ゴブスレＴＲＰＧ　キャラシ　簡易作成
+        <p>これどこまで著作権的にセーフなのかわからない</p>
+        <p>怒られたら消せばいいかの精神で</p>
+-->
+    </header>
+    <div class="container active">
+
+      <h2>ゴブリンスレイヤーＴＲＰＧ</h2>
+      <p>このページは非公式のゴブリンスレイヤーＴＲＰＧキャラシ作成からセッション手助けまで行うページです。ブラウザはchromeの最新版推奨です</p>
+    </div>
+  </div>
+
+  <div id="app">
+<!--   {{Making}}-->
+<!--   {{havingAdSkills}}-->
+    <div class="container">
+      <ul class="menu">
+        <li><a href="#" class="active" data-id="about">キャラシ作成</a></li>
+        <li><a href="#" data-id="service">一覧表示</a></li>
+        <li><a href="#" data-id="contact">セッション</a></li>
+        <li><a href="#" data-id="gmpage">技能確認</a></li>
+      </ul>
+      <div class="content active" id="about">
+        <ul class="mini_menu">
+          <li><a href="#" class="active" data-id="chara">個体値作成</a></li>
+          <li><a href="#" data-id="skill">職業・スキル</a></li>
+          <li><a href="#" data-id="item">持ち物選択</a></li>
+        </ul>
+        <div class="pure-g name_input">
+          <div class="pure-u-1-2">
+            名前<input class="playercharacter" v-model="Making.name" value="新規名前">
+          </div>
+          <div class="box-1">キャラ選択　
+            <select class="pc" v-model="playerSelect">
+              <option v-for="(player,index) in players" v-bind:value="index">{{player.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="pure-g">
+
+          <div class=" pure-u-1-1 pure-u-md-1-3 pure-button-group">
+            <button class="pure-button" v-on:click="newsave">新規保存<i class="far fa-save"></i></button>
+
+            <button class="pure-button pure-button-active" v-on:click="save">上書き保存</button>
+
+            <button class="button-warning pure-button pure-button-active" v-on:click="remove">削除</button>
+          </div>
+        </div>
+<button class="pure-button" @click="allDelete">全て削除</button>
+<!--{{Making.money}}<br>-->
+<!--       {{Making.Items}}-->
+        バグったら押して下して、ページをリロードしてください。
+
+        <div class="content2 active" id="chara">
+          <div class="pure-g">
+            <h1　class="subtitle">個体値決定</h1>
+            <div class="pure-u-1-1">
+              <p>初めてセッションする方はここから</p>
+            </div>
+          </div>
+
+          <div class="pure-g">
+            <div class="pure-u-1-3">
+
+              <button class="dise" v-on:click="diserool">
+                <i class="fas fa-dice-d6">
+                </i>
+                ダイスロール</button>
+
+            </div>
+
+            <div class="pure-u-2-3">
+
+              <p>種族・ボーナス</p>
+              <select v-model="race" @change="raceChange">
+
+                <option disabled value="race">種族</option>
+                <option value="ヒューマン">只人</option>
+                <option value="ドワーフ">鉱人</option>
+                <option value="エルフ">森人</option>
+                <option value="リザードマン">蜥蜴人</option>
+                <option value="レーア">圃人</option>
+              </select>
+              <!--      選択した種族は{{race}}です。{{raceval.stats}}-->
+
+
+              <select v-model="bonus">
+                <option disabled value="">ボーナス点</option>
+                <option value="con">体力点</option>
+                <option value="pow">魂魄点</option>
+                <option value="tec">技量点</option>
+                <option value="int">知力点</option>
+              </select>
+            </div>
+          </div>
+          <!--選択したボーナスは{{bonus}}です。{{bonusval}}-->
+
+          <!--          <table class="pure-table pure-table-bordered stats1">-->
+          <div class="md_table">
+
+            <table class="main_table pure-table pure-table-bordered" id="table1">
+              <tr>
+                <thead>
+
+                  <td colspan="8">第一能力値</td>
+                </thead>
+              </tr>
+              <tbody>
+
+                <tr>
+                  <td colspan="2">体力点</td>
+                  <td colspan="2">魂魄点</td>
+                  <td colspan="2">技量点</td>
+                  <td colspan="2">知力点</td>
+                </tr>
+                <tr>
+                  <td>出目</td>
+                  <td>種族</td>
+                  <td>出目</td>
+                  <td>種族</td>
+                  <td>出目</td>
+                  <td>種族</td>
+                  <td>出目</td>
+                  <td>種族</td>
+                </tr>
+                <tr>
+                  <td><input type="number" min="1" max="3" v-model="Making.stats[0]" class="number_input"></td>
+                  <td>{{sidestats[0]}}</td>
+                  <td><input type="number" min="1" max="3" val=0 v-model="Making.stats[1]" class="number_input"></td>
+                  <td>{{sidestats[1]}}</td>
+                  <td><input type="number" min="1" max="3" val=0 v-model="Making.stats[2]" class="number_input"></td>
+                  <td>{{sidestats[2]}}</td>
+                  <td><input type="number" min="1" max="3" val=0 v-model="Making.stats[3]" class="number_input"></td>
+                  <td>{{sidestats[3]}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">{{mainstats[0]}}</td>
+                  <td colspan="2">{{mainstats[1]}}</td>
+                  <td colspan="2">{{mainstats[2]}}</td>
+                  <td colspan="2">{{mainstats[3]}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            <table class="pure-table pure-table-bordered" border="3">
+              <tr>
+                <thead>
+
+                  <td colspan="6">第二能力値</td>
+                </thead>
+              </tr>
+              <tbody>
+                <tr>
+
+                  <td colspan="2">集中度</td>
+                  <td colspan="2">持久度</td>
+                  <td colspan="2">反射度</td>
+                </tr>
+                <tr>
+                  <td>出目</td>
+                  <td>種族</td>
+                  <td>出目</td>
+                  <td>種族</td>
+                  <td>出目</td>
+                  <td>種族</td>
+                </tr>
+                <tr>
+                  <td><input type="number" min="1" max="3" v-model="Making.stats[4]"></td>
+                  <td>{{raceval.stats[4]}}</td>
+                  <td><input type="number" min="1" max="3" val=0 v-model="Making.stats[5]"></td>
+                  <td>{{raceval.stats[5]}}</td>
+                  <td><input type="number" min="1" max="3" val=0 v-model="Making.stats[6]"></td>
+                  <td>{{raceval.stats[6]}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">{{mainstats[4]}}</td>
+                  <td colspan="2">{{mainstats[5]}}</td>
+                  <td colspan="2">{{mainstats[6]}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mobile_table">
+            <p>第一能力値</p>
+
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+              <div class="pure-u-1-3">ステータス</div>
+              <div class="pure-u-1-6">出目</div>
+              <div class="pure-u-1-6">種族</div>
+              <div class="pure-u-1-6">合計</div>
+            </div>
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+
+              <div class="pure-u-1-3">体力点</div>
+              <div class="pure-u-1-6"><input type="number" min="1" max="3" v-model="Making.stats[0]" class="number_input"></div>
+              <div class="pure-u-1-6">{{sidestats[0]}}</div>
+              <div class="pure-u-1-6">{{mainstats[0]}}</div>
+            </div>
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+
+              <div class="pure-u-1-3">魂魄点</div>
+              <div class="pure-u-1-6"><input type="number" min="1" max="3" v-model="Making.stats[1]" class="number_input"></div>
+              <div class="pure-u-1-6">{{sidestats[1]}}</div>
+              <div class="pure-u-1-6">{{mainstats[1]}}</div>
+            </div>
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+
+              <div class="pure-u-1-3">技量点</div>
+              <div class="pure-u-1-6"><input type="number" min="1" max="3" v-model="Making.stats[2]" class="number_input"></div>
+              <div class="pure-u-1-6">{{sidestats[2]}}</div>
+              <div class="pure-u-1-6">{{mainstats[2]}}</div>
+            </div>
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+
+              <div class="pure-u-1-3">知力点</div>
+              <div class="pure-u-1-6"><input type="number" min="1" max="3" v-model="Making.stats[3]" class="number_input"></div>
+              <div class="pure-u-1-6">{{sidestats[3]}}</div>
+              <div class="pure-u-1-6">{{mainstats[3]}}</div>
+            </div>
+            <p>
+              第二能力値
+            </p>
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+
+              <div class="pure-u-1-3">ステータス</div>
+              <div class="pure-u-1-6">出目</div>
+              <div class="pure-u-1-6">種族</div>
+              <div class="pure-u-1-6">合計</div>
+            </div>
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+
+              <div class="pure-u-1-3">集中度</div>
+              <div class="pure-u-1-6"><input type="number" min="1" max="3" v-model="Making.stats[4]" class="number_input"></div>
+              <div class="pure-u-1-6">{{raceval.stats[4]}}</div>
+              <div class="pure-u-1-6">{{mainstats[4]}}</div>
+            </div>
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+
+              <div class="pure-u-1-3">持久度</div>
+              <div class="pure-u-1-6"><input type="number" min="1" max="3" v-model="Making.stats[5]" class="number_input"></div>
+              <div class="pure-u-1-6">{{raceval.stats[5]}}</div>
+              <div class="pure-u-1-6">{{mainstats[5]}}</div>
+            </div>
+            <div class="pure-g">
+              <div class="pure-u-1-12"></div>
+
+              <div class="pure-u-1-3">集中度</div>
+              <div class="pure-u-1-6"><input type="number" min="1" max="3" v-model="Making.stats[6]" class="number_input"></div>
+              <div class="pure-u-1-6">{{raceval.stats[6]}}</div>
+              <div class="pure-u-1-6">{{mainstats[6]}}</div>
+            </div>
+
+          </div>
+          
+          <table class="pure-table pure-table-bordered imp_stats" border="3">
+            <tr>
+              <thead>
+
+                <td>選択</td>
+                <td>出目</td>
+                <td>結果</td>
+              </thead>
+            </tr>
+
+            <tbody>
+              <tr>
+                <td>生命力</td>
+                <td><input type="number" v-model="Making.base[0]"><button>×</button><button v-on:click="Button1()">↓</button></td>
+                <td class="HP">{{basestats.HP}}/{{basestats.HP *2}}</td>
+              </tr>
+              <tr>
+                <td>移動力</td>
+                <td><input type="number" v-model="Making.base[2]"><button v-on:click="Button1()">↑</button><button v-on:click="Button2()">↓</button></td>
+                <td class="spd">{{basestats.spd}}</td>
+              </tr>
+              <tr>
+                <td>呪文行使回数</td>
+                <td><input type="number" v-model="Making.base[1]"><button v-on:click="Button2()">↑</button></td>
+                <td class="MP">{{basestats.MP}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="pure-table pure-table-horizontal center">
+
+            <td>出自</td>
+            <td class="lived">
+              <select v-model.number="livedmodel" @change="livedchange()">
+                <option v-for="(liveds,index) in lived" v-bind:value="liveds.val">{{liveds.lived}}</option>
+              </select>
+            </td>
+            <tr>
+              <td>来歴</td>
+              <td class="histry">
+                <select v-model="Making.histry">
+                  <option v-for="(histry,index) in histrys" :value="index">{{histry}}</option>
+                </select>
+              </td>
+            <tr>
+              <td>邂逅</td>
+              <td class="meet">
+                <select v-model="Making.meet">
+                  <option v-for="(meet,index) in meets" :value="index">{{meet}}</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+<button class="pure-button" @click="doDecide">出自来歴技能決定</button>
+        </div>
+        <div class="content2" id="skill">
+          <p>
+            <table class="pure-table pure-table-horizontal adventuer_times">
+              <td>冒険回数</td>
+              <td><input type="number" 　value="0"></td>
+              <td>達成数</td>
+              <td><input type="number" value="0"></td>
+            </table>
+
+            <table border="1" class="pure-table pure-table-horizontal">
+              <td>累計経験点<input v-model.number="Making.sumExp" class="exp" type="number">
+                <tr>
+                  <td>現在経験点{{nowExp}}</td>
+                </tr>
+            </table>
+
+            <table class="pure-table pure-table-horizontal">
+
+              <td>成長点<input v-model.number="Making.sumGrow" class="exp" type="number"></td>
+              <tr>
+                <td>現在成長点{{nowGrow}}</td>
+              </tr>
+            </table>
+            <table>
+              <td class="pure-table pure-table-horizontal">冒険者レベル</td>
+              <td>{{playerLebel}}</td>
+            </table>
+
+
+            <!--
+            <table border="3">
+              <tr>
+
+                <td　colspan="2">職業レベル</td>
+              </tr>
+              <tr v-for="(job,index) in jobs">
+                <td>{{job}}</td>
+                <td>
+
+                  <select @change="jobLevelChange(index)" v-model="jobL[index]">
+                    <option v-for="(jobLevel,index2) in jobsLevel" :value="index2">
+                      {{index2}}
+                    </option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+-->
+<!--            {{magicNumber}}-->
+            <div class="pure-g">
+              <div class="pure-u-1-2" v-for="(job, index) in jobs">
+                <div class="pure-g">
+
+                  <div class="pure-u-2-3">
+                    {{job}}
+                  </div>
+                  <div class="pure-u-1-5">
+                    <select @change="jobLevelChange(index)" v-model="jobL[index]">
+                      <option v-for="(jobLevel,index2) in jobsLevel" :value=index2> {{index2}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <button @click="skillInitial">初期化</button>
+            <div class="pure-g">
+              スキル選択
+            </div>
+            <div class="pure-g choice_skill">
+              <div class="pure-u-1-2"><a class="pure-button" @click="doHidden(0)">冒険者スキル</a></div>
+              <div class="pure-u-1-2"><a class="pure-button" @click="doHidden(1)">一般スキル</a></div>
+            </div>
+            <div class="pure-g">
+              魔法選択
+            </div>
+            <div class="pure-g choice_magic">
+              <div class="pure-u-1-4"><a class="pure-button" @click="doHidden(2)">真言魔法</a></div>
+              <div class="pure-u-1-4"><a class="pure-button" @click="doHidden(3)">奇跡</a></div>
+              <div class="pure-u-1-4"><a class="pure-button" @click="doHidden(4)">祖竜魔法</a></div>
+              <div class="pure-u-1-4"><a class="pure-button" @click="doHidden(5)">精霊魔法</a></div>
+            </div>
+            <ul>
+
+              <li v-for="(havingAdventuerSkill,index) in havingAdventuerSkills">{{havingAdventuerSkill.name}}{{havingAdventuerSkill.inputName}}<input v-if="havingAdventuerSkill.isInput" v-model="havingAdventuerSkill.inputName" @change="skillNameChange(index)"><select @change="aLevelChange(index)" v-model="adL[index]">
+                  <option v-for="(adventuerLevel,index2) in adventuerLevels" :value=index2>{{adventuerLevel[0]}}</option>
+                </select>
+                <button v-if="havingAdventuerSkill.isInput" 　v-on:click="changing_Skill(index)">＋</button>{{adL[index]}}
+              </li>
+            </ul>
+
+            <ul>
+
+              <li v-for="(havingGeneralSkill,index) in havingGeneralSkills">{{havingGeneralSkill.name}}{{havingGeneralSkill.inputName}}<input v-if="havingGeneralSkill.isInput" v-model="havingGeneralSkill.inputName" @change="skillNameChangeGn(index)"><select @change="gLevelChange(index)" v-model="gnL[index]">
+                  <option v-for="(generalLevel,index2) in generalLevels" :value=index2>{{generalLevel[0]}}</option>
+                </select>
+                <button v-if="havingGeneralSkill.isInput" 　v-on:click="changing_SkillGn(index)">＋</button>{{gnL[index]}}
+              </li>
+            </ul>
+            <ul>
+              <li v-for="obtain in obtainTrueMagic" :key="obtain.id">{{obtain.name}}</li>
+            </ul>    <ul>
+              <li v-for="obtain in obtainMiracleMagic" :key="obtain.id">{{obtain.name}}</li>
+            </ul>    <ul>
+              <li v-for="obtain in obtainDragonMagic" :key="obtain.id">{{obtain.name}}</li>
+            </ul>    <ul>
+              <li v-for="obtain in obtainSpiritMagic" :key="obtain.id">{{obtain.name}}</li>
+            </ul>
+            
+<div :class="{hidden: isNavi}" class="hide_navi pure-g">
+  <div class="pure-u-1-4">現在成長点{{nowGrow}}</div>
+  <div class="pure-u-1-4">魔法習得数{{remainMagic}}</div>
+  <div class="pure-u-1-4"></div>
+  <div class="navi"><a class="pure-button" @click="doHidden(10)">×</a></div>
+</div>
+            <div class="adventuer_skill get" :class="{hidden: isHidden[0]}">
+
+              <table border="3" class="skill">
+                <tr v-for="(adventuerSkill,index) in adventuerSkills" 　:class="{obtain: adventuerSkill.isObtain }">
+
+                  <label>
+                    <td>
+                      <input type="checkbox" v-model="adventuerSkill.isObtain" v-on:click="getAdSkill(index)">
+                    </td>
+                    <td v-on:click="getAdSkill(index)">{{adventuerSkill.name}}</td>
+                    <td v-on:click="getAdSkill(index)">{{adventuerSkill.effect}}</td>
+                  </label>
+                </tr>
+              </table>
+            </div>
+            
+            <div class="general_skill get" :class="{hidden: isHidden[1]}">
+
+              <table border="3" class="skill">
+                <tr v-for="(GeneralSkill,index) in GeneralSkills" :class="{obtain:GeneralSkill.isObtain}">
+
+                  <label>
+                    <td>
+                      <input type="checkbox" v-model="GeneralSkill.isObtain" v-on:click="getGnSkill(index)">
+                    </td>
+                    <td v-on:click="getGnSkill(index)">{{GeneralSkill.name}}</td>
+                    <td v-on:click="getGnSkill(index)">{{GeneralSkill.effect}}</td>
+                  </label>
+                </tr>
+              </table>
+
+            </div>
+      <div class="true_magic get" :class="{hidden: isHidden[2]}">
+
+              <table border="3" class="skill">
+                <tr v-for="(magic,index) in trueMagics" :class="{obtain:magic.isObtain}">
+                  <label>
+                    <td><input type="checkbox" v-model="magic.isObtain" @click="getTrueMagic(index)"></td>
+                    <td @click='getTrueMagic(index)'>{{magic.name}}</td>
+                    <td @click="getTrueMagic(index)">{{magic.effect}}</td>
+                  </label>
+                </tr>
+              </table>
+            </div>
+            <div class="miracle_magic get" :class="{hidden: isHidden[3]}">
+
+              <table border="3" class="skill">
+                <tr v-for="(magic,index) in miracleMagics" :class="{obtain:magic.isObtain}">
+                  <label>
+                    <td><input type="checkbox" v-model="magic.isObtain" @click="getMiracleMagic(index)"></td>
+                    <td @click='getMiracleMagic(index)'>{{magic.name}}</td>
+                    <td @click="getMiracleMagic(index)">{{magic.effect}}</td>
+                  </label>
+                </tr>
+              </table>
+            </div>
+            <div class="dragon_magic get" :class="{hidden: isHidden[4]}">
+
+              <table border="3" class="skill">
+                <tr v-for="(magic,index) in dragonMagics" :class="{obtain:magic.isObtain}">
+                  <label>
+                    <td><input type="checkbox" v-model="magic.isObtain" @click="getDragonMagic(index)"></td>
+                    <td @click='getDragonMagic(index)'>{{magic.name}}</td>
+                    <td @click="getDragonMagic(index)">{{magic.effect}}</td>
+                  </label>
+                </tr>
+              </table>
+            </div>
+            <div class="spirit_magic get" :class="{hidden: isHidden[5]}">
+
+              <table border="3" class="skill">
+                <tr v-for="(magic,index) in spiritMagics" :class="{obtain:magic.isObtain}">
+                  <label>
+                    <td><input type="checkbox" v-model="magic.isObtain" @click="getSpiritMagic(index)"></td>
+                    <td @click='getSpiritMagic(index)'>{{magic.name}}</td>
+                    <td @click="getSpiritMagic(index)">{{magic.effect}}</td>
+                  </label>
+                </tr>
+              </table>
+            </div>
+        </div>
+        <div class="content2" id="item">
+          <myitem name="アイテム名" isItem=true :make-data=Making></myitem>
+<!--          <mywepon></mywepon>        -->
+<!--          <myarmor></myarmor>        -->
+          </div>
+      </div>
+      <div class="content" id="service">
+        これは完成したキャラシ一覧ページです。
+
+        <p>
+          名前{{Making.name}}　　　　　
+          出自:{{living}}、来歴:{{histrys[Making.histry-0]}}、邂逅:{{meets[Making.meet-0]}}　　所持金:銀貨{{Making.money[1]}}枚
+        </p>
+
+        <table border="3" class="table_stats_seet">
+          <td>合計</td>
+          <td>集中</td>
+          <td>持久</td>
+          <td>反射</td>
+          <tr>
+            <td>体力</td>
+            <td>{{con[0]}}</td>
+            <td>{{con[1]}}</td>
+            <td>{{con[2]}}</td>
+          </tr>
+          <tr>
+            <td>魂魄</td>
+            <td>{{pow[0]}}</td>
+            <td>{{pow[1]}}</td>
+            <td>{{pow[2]}}</td>
+          </tr>
+          <tr>
+            <td>技量</td>
+            <td>{{tec[0]}}</td>
+            <td>{{tec[1]}}</td>
+            <td>{{tec[2]}}</td>
+          </tr>
+          <tr>
+            <td>知力</td>
+            <td>{{int[0]}}</td>
+            <td>{{int[1]}}</td>
+            <td>{{int[2]}}</td>
+          </tr>
+        </table>
+
+        <table class="chooce" border="3">
+          <td>生命力</td>
+          <td class="HP">{{basestats.HP}}/{{basestats.HP *2}}</td>
+          <tr>
+            <td>移動力</td>
+            <td class="spd">{{basestats.spd}}</td>
+          </tr>
+          <tr>
+            <td>呪文行使回数</td>
+            <td class="MP">{{basestats.MP}}</td>
+          </tr>
+        </table>
+        <p>
+          冒険者スキル
+          <table>
+            <thead>冒険者スキル</thead>
+            <td>スキル名</td>
+            <td>効果</td>
+            <td>ページ</td>
+            <td>階級</td>
+            <tr v-for="(havingAdventuerSkill,index) in havingAdventuerSkills">
+              <td>
+                {{havingAdventuerSkill.name}}{{havingAdventuerSkill.inputName}}
+              </td>
+              <td>{{havingAdventuerSkill.effect}}</td>
+              <td>{{havingAdventuerSkill.page}}</td>
+              <td>{{adventuerLevels[adL[index]]}}</td>
+              <!--          <td>{{havingAdventuerSkill.effectval[Making.adSkill[index][1]]}}</td>-->
+            </tr>
+          </table>
+          <table>
+            <thead>一般スキル</thead>
+            <td>スキル名</td>
+            <td>効果</td>
+            <td>ページ</td>
+            <td>階級</td>
+            <tr v-for="(havingGeneralSkill,index) in havingGeneralSkills">
+              <td>
+                {{havingGeneralSkill.name}}{{havingGeneralSkill.inputName}}
+              </td>
+              <td>{{havingGeneralSkill.effect}}</td>
+              <td>{{havingGeneralSkill.page}}</td>
+              <td>{{generalLevels[gnL[index]]}}</td>
+            </tr>
+          </table>
+          <table>
+            <thead>呪文</thead>
+            <td>呪文名</td>
+            <td>効果</td>
+            <td>ページ</td>
+            <tr v-for=""> </tr>
+          </table>
+      </div>
+
+      <div class="content" id="contact">
+        これはセッションするときに確認するページです。
+      </div>
+
+      <div　class="content" id="gmpage">
+        <table border="3">
+
+          <td colspan="2" rowspan="2">ステータス</td>
+          <td colspan="3">第二能力値</td>
+          <tr>
+            <td>集中度</td>
+            <td>持久度</td>
+            <td>反射度</td>
+          </tr>
+
+          <tr>
+            <td rowspan="8">
+              第一能力値
+            </td>
+            <td rowspan="2">体力点</td>
+            <td>脱出</td>
+            <td>自然治癒</td>
+            <td>病気毒対抗</td>
+          <tr>
+            <td>移動妨害</td>
+            <td>長距離移動</td>
+            <td>火事場の馬鹿力＋</td>
+          </tr>
+          <tr>
+            <td rowspan="2">魂魄点</td>
+            <td>呪文使用</td>
+            <td>呪文維持</td>
+            <td>呪文抵抗</td>
+          </tr>
+          <tr>
+            <td>交渉・詠唱</td>
+            <td>祈祷・瞑想</td>
+            <td>沈着冷静</td>
+          </tr>
+          <tr>
+            <td rowspan="2">技量点</td>
+            <td>命中</td>
+            <td>バランス維持</td>
+            <td>回避・盾受け</td>
+          </tr>
+          <tr>
+            <td>手仕事</td>
+            <td>長時間騎乗</td>
+            <td>スリ・イカサマ</td>
+          </tr>
+          <tr>
+            <td rowspan="2">知力点</td>
+            <td>呪文行使</td>
+            <td>思い出す</td>
+            <td>危険完治</td>
+          </tr>
+          <tr>
+            <td>怪物知識</td>
+            <td>長時間警戒</td>
+            <td>アイデアロール</td>
+          </tr>
+
+        </table>
+        集中:能動的行動
+        持久:長時間行動
+        反射:受動的行動、瞬間的行動
+
+        体力集中:移動妨害判定対抗、脱出判定。その他（重い物を持ち上げる、扉を蹴破る等）<br>
+        体力持久:体力の消耗度合い、耐病、対毒、耐寒、耐熱<br>
+        体力反射:体力抵抗判定、移動妨害判定。踏ん張る。即効性の何かに耐える<br>
+        魂魄集中:呪文行使判定、挑発判定<br>
+        魂魄持久:呪文維持判定<br>
+        魂魄反射:呪文抵抗判定<br>
+        技量集中:命中判定、行動妨害判定への対抗、応急手当判定、隠密判定、手仕事判定、他、工作、騎乗、船、料理、せまい道を素早く移動、等<br>
+        技量持久:長時間の器用さ機敏さ判定<br>
+        技量反射:回避判定、盾受け判定、跳躍判定、軽業判定、他咄嗟に身を隠す等で用いる<br>
+        知力集中:「真言呪文」の呪文行使判定、観察判定、第六感判定、怪物知識判定、博識判定等<br>
+        知力持久:「真言呪文」の呪文維持判定、第六感判定、観察判定、警戒し続ける、読み聴きした内容を思い出す<br>
+        知力反射:第六感判定、アイデアロール、嘘に気づく等<br>
+        <p>
+        </p>
+
+      </div>
+      <footer>
+        このページは非公式のゴブリンスレイヤーＴＲＰＧキャラクターシート作成ページです。
+        　よってご意向によって突然ページが使えなくなる可能性が十分にあります。また、このページの開発者の雑なコードによる意図しない挙動によってデータが使えなくなる可能性も存在するので、利用する際は公式のキャラクターシートの方に保存することをお勧めします。 また、要望等がございましたらこちらのメールアドレスまで<a href="#" disabled>sunica.main@gmail.com</a>
+      </footer>
+    </div>
+  </div>
+    <script src="https://kit.fontawesome.com/91de347aa2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.8/dist/vue.js"></script>
+    <script type="text/javascript" src="js/data.js"></script>
+    <script type="text/javascript" src="js/vuemain.js"></script>
+    <script type="text/javascript" src="js/header.js"></script>
+    <script type="text/javascript" src="js/item.js"></script>
+</body></html>
