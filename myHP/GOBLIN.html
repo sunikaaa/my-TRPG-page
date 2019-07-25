@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- 幅をデバイスの画面サイズにし、ユーザーによるサイズ変更をできないようにする -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- ステータスバーを半透明で表示する(iPad/iPhpne用) -->
+  <title>enchant</title>
+  <!--    <script type="text/javascript" src="enchant.js"></script>-->
+  <script type="text/javascript" src="js/jQ/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="js/jQ/jquery-3.3.1.slim.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  <script type="text/javascript" src="js/gbrin.js"></script>
+  <script type="text/javasctipt" sec="js/vuemain.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- 「body」要素のマージンを「0」に設定する -->
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="icon">
+      <h1>雑なＨＰ~ＣＳＳ設計はいつかやる~</h1>
+    </div>
+    <div class="menu">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li>booknavi-無いです-</li>
+        <li>日記-無いです-</li>
+        <li><a href="#">進捗</a></li>
+        <li>黒歴史</li>
+      </ul>
+    </div>
+  </header>
+  <p>
+
+    <!--テキスト出力用要素-->
+    ゴブスレＴＲＰＧ　キャラシ　簡易作成
+    <p>これどこまで著作権的にセーフなのかわからない</p>
+    <p>怒られたら消せばいいかの精神で</p>
+
+    <p>ゴブリンスレイヤーＴＲＰＧキャラシ作成用ページ</p>
+    武器魔法欄は後々追加する予定<br>
+
+
+    名前<input class="playercharacter">
+    <button class="serve" onclick="serve()">保存</button>
+    <br>
+    <select class="pc">
+      <option value="pl1">nodata</option>
+      <option value="pl2">nodata2</option>
+      <option value="pl3">nodata3</option>
+      <option value="pl4">nodata4</option>
+      <option value="pl5">nodata5</option>
+    </select>
+
+    <br><br>
+    <button class="dise" onclick="diserool()">ダイスロール</button>
+
+
+    <h2>種族・ボーナス</h2>
+    <select class="race" name="race">
+      <option value="人間">只人</option>
+      <option value="ドワーフ">鉱人</option>
+      <option value="エルフ">森人</option>
+      <option value="リザードマン">蜥蜴人</option>
+      <option value="レーア">圃人</option>
+    </select>
+
+    <select class="bonus">
+      <option value="con">体力点</option>
+      <option value="pow">魂魄点</option>
+      <option value="tec">技量点</option>
+      <option value="int">知力点</option>
+    </select>
+    <table border="3">
+
+      <td colspan="2" rowspan="2">ステータス</td>
+      <!--      <td colspan="3" >第二能力値</td>-->
+      <td>集中度</td>
+      <td>持久度</td>
+      <td>反射度</td>
+      <tr>
+        <td><input size="1" value="0" class="stats4"></td>
+        <td><input size="1" value="0" class="stats5"></td>
+        <td><input size="1" value="0" class="stats6"></td>
+      </tr>
+      <!--      <tr></tr>-->
+      <!--   <td rowspan="4" class="abilitytable">-->
+      <!--     第<br>一<br>能<br>力<br>値-->
+      <!--   </td>-->
+      <td class="con">体力点</td>
+      <td><input readonly size="1" value="0" class="stats0"></td>
+
+
+      <td class="con0 inner"></td>
+      <td class="con1 inner"></td>
+      <td class="con2 inner"></td>
+      <tr>
+        <td class="pow">魂魄点</td>
+        <td><input readonly size="1" value="0" class="stats1"></td>
+        <td class="pow0 inner"></td>
+        <td class="pow1 inner"></td>
+        <td class="pow2 inner"></td>
+      </tr>
+      <tr>
+        <td class="tec">技量点</td>
+        <td><input readonly size="1" value="0" class="stats2"></td>
+        <td class="tec0 inner"></td>
+        <td class="tec1 inner"></td>
+        <td class="tec2 inner"></td>
+      </tr>
+      <tr>
+        <td class="int">知力点</td>
+        <td><input readonly size="1" value="0" class="stats3"></td>
+        <td class="int0 inner"></td>
+        <td class="int1 inner"></td>
+        <td class="int2 inner"></td>
+      </tr>
+
+    </table>
+
+    <p>
+    </p>
+    <table class="chooce" border="3">
+      <tr>
+        <td>選択</td>
+        <td>出目</td>
+        <td>結果</td>
+      </tr>
+      <tr>
+        <td>生命力</td>
+        <td><input readonly type="number" value="0" class="choice0"><button>×</button><button onclick="downbutton1()">↓</button></td>
+        <td class="HP"></td>
+      </tr>
+      <tr>
+        <td>移動力</td>
+        <td><input readonly type="number" value="0" class="choice1"><button onclick="upbutton1()">↑</button><button onclick="downbutton2()">↓</button></td>
+        <td class="spd"></td>
+      </tr>
+      <tr>
+        <td>呪文行使回数</td>
+        <td><input readonly type="number" value="0" class="choice2"><button onclick="upbutton2()">↑</button></td>
+        <td class="MP"></td>
+      </tr>
+    </table>
+
+    <table>
+
+      <td>出自</td>
+      <td class="lived">
+        <select disabled>
+          <option value="000">冒険者</option>
+          <option value="001">無類</option>
+          <option value="002">猟師</option>
+          <option value="003">学者</option>
+          <option value="004">職人</option>
+          <option value="005">農民</option>
+          <option value="006">商人</option>
+          <option value="007">兵士</option>
+          <option value="008">騎士</option>
+          <option value="009">神官</option>
+          <option value="010">貴族</option>
+          <option value="100">冒険者</option>
+          <option value="101">無類</option>
+          <option value="102">猟師</option>
+          <option value="103">商人</option>
+          <option value="104">亭主</option>
+          <option value="105">鍛冶師</option>
+          <option value="106">職人</option>
+          <option value="107">兵士</option>
+          <option value="108">盾砕き</option>
+          <option value="109">神官</option>
+          <option value="110">貴族</option>
+          <option value="200">冒険者</option>
+          <option value="201">無類</option>
+          <option value="202">半森人</option>
+          <option value="203">細工師</option>
+          <option value="204">兵士</option>
+          <option value="205">猟師</option>
+          <option value="206">詩人</option>
+          <option value="207">楽士</option>
+          <option value="208">語り部</option>
+          <option value="209">祈祷師</option>
+          <option value="210">族長</option>
+          <option value="300">冒険者</option>
+          <option value="301">無類</option>
+          <option value="302">奴隷</option>
+          <option value="303">騎兵</option>
+          <option value="304">工兵</option>
+          <option value="305">弓兵</option>
+          <option value="306">槍兵</option>
+          <option value="307">歩兵</option>
+          <option value="308">軍師</option>
+          <option value="309">司祭</option>
+          <option value="310">王卵</option>
+          <option value="400">冒険者</option>
+          <option value="401">無類</option>
+          <option value="402">詩人</option>
+          <option value="403">学者</option>
+          <option value="404">職人</option>
+          <option value="405">農民</option>
+          <option value="406">商人</option>
+          <option value="407">亭主</option>
+          <option value="408">庭師</option>
+          <option value="409">騎士</option>
+          <option value="410">地主</option>
+        </select>
+      </td>
+      <tr>
+        <td>来歴</td>
+        <td class="histry">
+          <select disabled>
+            <option value="2">奴隷</option>
+            <option value="3">牢獄</option>
+            <option value="4">戦場</option>
+            <option value="5">神殿</option>
+            <option value="6">孤児</option>
+            <option value="7">平穏</option>
+            <option value="8">貧困</option>
+            <option value="9">学校</option>
+            <option value="10">箱入</option>
+            <option value="11">贅沢</option>
+            <option value="12">宮廷</option>
+          </select>
+        </td>
+      <tr>
+        <td>邂逅</td>
+        <td class="meet">
+          <select disabled>
+            <option value="2">宿敵</option>
+            <option value="3">上司</option>
+            <option value="4">後輩</option>
+            <option value="5">取引相手</option>
+            <option value="6">部下</option>
+            <option value="7">家族</option>
+            <option value="8">親友</option>
+            <option value="9">先輩</option>
+            <option value="10">婚約者</option>
+            <option value="11">好敵手</option>
+            <option value="12">師匠</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+
+    <div box2 class="KP">
+      <table border="3">
+
+        <td colspan="2" rowspan="2">ステータス</td>
+        <td colspan="3">第二能力値</td>
+        <tr>
+          <td>集中度</td>
+          <td>持久度</td>
+          <td>反射度</td>
+        </tr>
+
+        <tr>
+          <td rowspan="8">
+            第一能力値
+          </td>
+          <td rowspan="2">体力点</td>
+          <td>脱出</td>
+          <td>自然治癒</td>
+          <td>病気毒対抗</td>
+        <tr>
+          <td>移動妨害</td>
+          <td>長距離移動</td>
+          <td>火事場の馬鹿力＋</td>
+        </tr>
+        <tr>
+          <td rowspan="2">魂魄点</td>
+          <td>呪文使用</td>
+          <td>呪文維持</td>
+          <td>呪文抵抗</td>
+        </tr>
+        <tr>
+          <td>交渉・詠唱</td>
+          <td>祈祷・瞑想</td>
+          <td>沈着冷静</td>
+        </tr>
+        <tr>
+          <td rowspan="2">技量点</td>
+          <td>命中</td>
+          <td>バランス維持</td>
+          <td>回避・盾受け</td>
+        </tr>
+        <tr>
+          <td>手仕事</td>
+          <td>長時間騎乗</td>
+          <td>スリ・イカサマ</td>
+        </tr>
+        <tr>
+          <td rowspan="2">知力点</td>
+          <td>呪文行使</td>
+          <td>思い出す</td>
+          <td>危険完治</td>
+        </tr>
+        <tr>
+          <td>怪物知識</td>
+          <td>長時間警戒</td>
+          <td>アイデアロール</td>
+        </tr>
+
+      </table>
+      <p>
+        集中:能動的行動
+        持久:長時間行動
+        反射:受動的行動、瞬間的行動
+
+        体力集中:移動妨害判定対抗、脱出判定。その他（重い物を持ち上げる、扉を蹴破る等）<br>
+        体力持久:体力の消耗度合い、耐病、対毒、耐寒、耐熱<br>
+        体力反射:体力抵抗判定、移動妨害判定。踏ん張る。即効性の何かに耐える<br>
+        魂魄集中:呪文行使判定、挑発判定<br>
+        魂魄持久:呪文維持判定<br>
+        魂魄反射:呪文抵抗判定<br>
+        技量集中:命中判定、行動妨害判定への対抗、応急手当判定、隠密判定、手仕事判定、他、工作、騎乗、船、料理、せまい道を素早く移動、等<br>
+        技量持久:長時間の器用さ機敏さ判定<br>
+        技量反射:回避判定、盾受け判定、跳躍判定、軽業判定、他咄嗟に身を隠す等で用いる<br>
+        知力集中:「真言呪文」の呪文行使判定、観察判定、第六感判定、怪物知識判定、博識判定等<br>
+        知力持久:「真言呪文」の呪文維持判定、第六感判定、観察判定、警戒し続ける、読み聴きした内容を思い出す<br>
+        知力反射:第六感判定、アイデアロール、嘘に気づく等<br>
+      </p>
+    </div>
+
+
+</body>
+
+</html>

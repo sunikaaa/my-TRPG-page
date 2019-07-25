@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <!-- 幅をデバイスの画面サイズにし、ユーザーによるサイズ変更をできないようにする -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0 shrink-to-fit=no">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <title>ゴブリンスレイヤーキャラクターシート</title>
+
+  <!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+  <link href="css/style.css" media="all" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+  <div>
+    <header>
+      <div id="header">
+        <header-outer :lists="lists"></header-outer>
+      </div>
+    </header>
+</div>
+
+<div id="app">
+
+<div id="name"></div>  
+  <div>
+    名前<input v-model="Making.name"> 
+</div>
+<div class="pure-g">
+  <div class="pure-u-1-6"><button>新規保存</button></div>
+  <div class="pure-u-1-6"><button>保存</button></div>
+  <div class="pure-u-1-6"><button>削除</button></div>
+</div>
+
+<div class="pure-g">
+  <div class="pure-u-1-4"><button　v-on:click="diserool">ダイスロール</button></div>
+  <div class="pure-u-1-4">
+猫種
+    <select>
+    <option v-for="(catrace,index) in catraces" :class="index">{{catrace.name}}</option>
+  </select>
+
+  
+</div>
+</div>
+
+<div class="pure-g"><div class="pure-u-1-6">ステータス</div><div class="pure-u-1-6">値</div><div class="pure-u-1-6">増減</div><div class="pure-u-1-6">合計</div></div>
+<div class="pure-g"><div class="pure-u-1-6">STR</div><div class="pure-u-1-6">{{Making.stats[0]}}</div><div class="pure-u-1-6">{{Making.UpDown[0]}}</div><div class="pure-u-1-6">合計</div></div>
+<div class="pure-g"><div class="pure-u-1-6">CON</div><div class="pure-u-1-6">{{Making.stats[1]}}</div><div class="pure-u-1-6">{{Making.UpDown[1]}}</div><div class="pure-u-1-6">合計</div></div>
+<div class="pure-g"><div class="pure-u-1-6">POW</div><div class="pure-u-1-6">{{Making.stats[2]}}</div><div class="pure-u-1-6">{{Making.UpDown[2]}}</div><div class="pure-u-1-6">合計</div></div>
+<div class="pure-g"><div class="pure-u-1-6">DEX</div><div class="pure-u-1-6">{{Making.stats[3]}}</div><div class="pure-u-1-6">{{Making.UpDown[3]}}</div><div class="pure-u-1-6">合計</div></div>
+<div class="pure-g"><div class="pure-u-1-6">APP</div><div class="pure-u-1-6">{{Making.stats[4]}}</div><div class="pure-u-1-6">{{Making.UpDown[4]}}</div><div class="pure-u-1-6">合計</div></div>
+<div class="pure-g"><div class="pure-u-1-6">SIZ</div><div class="pure-u-1-6">{{Making.stats[5]}}</div><div class="pure-u-1-6">{{Making.UpDown[5]}}</div><div class="pure-u-1-6">合計</div></div>
+<div class="pure-g"><div class="pure-u-1-6">INT</div><div class="pure-u-1-6">{{Making.stats[6]}}</div><div class="pure-u-1-6">{{Making.UpDown[6]}}</div><div class="pure-u-1-6">合計</div></div>
+<div class="pure-g"><div class="pure-u-1-6">EDU</div><div class="pure-u-1-6">{{Making.stats[7]}}</div><div class="pure-u-1-6">{{Making.UpDown[7]}}</div><div class="pure-u-1-6">合計</div></div>
+<main_stats></main_stats>
+</div>
+
+
+<script src="https://kit.fontawesome.com/91de347aa2.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.8/dist/vue.js"></script>
+<script type="text/javascript" src="js/header.js"></script>
+<script type="text/javascript" src="catsJS/catData.js"></script>
+<script type="text/javascript" src="catsJS/catmain.js"></script>
+</body>
+</html>
